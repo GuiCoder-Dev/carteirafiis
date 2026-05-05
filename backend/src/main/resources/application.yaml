@@ -1,0 +1,16 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: MySQL8Dialect
+
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/carteirafiisbase?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC
+    username: root #criar um .env para variável de ambiente depois
+    password: ceobigin123 #criar um .env para variável de ambiente depois
+
+  flyway:
+    enabled: false
+    locations:
