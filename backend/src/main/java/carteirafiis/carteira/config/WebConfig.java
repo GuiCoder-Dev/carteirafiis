@@ -17,7 +17,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig {
 
 
-        String[] routes = {"/users/creates"};
+        String[] routesUser = {"/users/**"};
+        String[] routesFiis = {"/fiis/**"};
 
 
         @Bean
@@ -48,7 +49,8 @@ public class WebConfig {
 
 
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(routes).permitAll()
+                        .requestMatchers(routesUser).permitAll()
+                        .requestMatchers(routesFiis).permitAll()
                         .anyRequest().authenticated()
                 )
 

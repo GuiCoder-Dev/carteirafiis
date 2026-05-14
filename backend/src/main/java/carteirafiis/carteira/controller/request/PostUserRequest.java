@@ -7,16 +7,16 @@ import jakarta.validation.constraints.NotBlank;
 
 public record PostUserRequest(
 
-        @NotBlank(message = "Name cannot be empty")
+        @NotBlank(message = "name cannot be empty")
         String name,
 
-        @NotBlank(message = "Email cannot be empty ")
+        @NotBlank(message = "email cannot be empty ")
         @EmailAvaliable
         @EmailUnique
         @Email
         String email,
 
-        @NotBlank(message = "Password cannot be empty ")
+        @NotBlank(message = "password cannot be empty ")
         String password
 
 ) {

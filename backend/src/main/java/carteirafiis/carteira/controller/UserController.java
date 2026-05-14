@@ -2,7 +2,7 @@ package carteirafiis.carteira.controller;
 
 
 import carteirafiis.carteira.controller.request.PostUserRequest;
-import carteirafiis.carteira.mapper.UserMapper;
+import carteirafiis.carteira.mapper.Mapper;
 import carteirafiis.carteira.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -13,15 +13,17 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+    private final Mapper mapper;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, Mapper mapper) {
         this.userService = userService;
+        this.mapper = mapper;
     }
 
     @PostMapping("/creates")
     @ResponseStatus(HttpStatus.CREATED)
     public void createUser(@RequestBody @Valid PostUserRequest user){
-        userService.createUser(UserMapper.toUserModel(user));
+        userService.createUser(mapper.toUserModel(user));
     }
 
 
