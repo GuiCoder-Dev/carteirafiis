@@ -1,12 +1,15 @@
 package carteirafiis.carteira.mapper;
 
 import carteirafiis.carteira.controller.request.PostFiiRequest;
+import carteirafiis.carteira.controller.request.PostTransactionRequest;
 import carteirafiis.carteira.controller.request.PostUserRequest;
 import carteirafiis.carteira.controller.request.PutFiiRequest;
 import carteirafiis.carteira.controller.response.GetFiiResponse;
+import carteirafiis.carteira.controller.response.GetTransactionResponse;
 import carteirafiis.carteira.enums.user.Role;
 import carteirafiis.carteira.enums.user.Status;
 import carteirafiis.carteira.model.FiiModel;
+import carteirafiis.carteira.model.TransactionModel;
 import carteirafiis.carteira.model.UserModel;
 import carteirafiis.carteira.service.UserService;
 import org.springframework.stereotype.Component;
@@ -62,6 +65,21 @@ public class Mapper {
         return fii;
     }
 
+    public TransactionModel toTransactionModelPost(PostTransactionRequest request, FiiModel fii){
+
+        TransactionModel transaction = new TransactionModel();
+
+        transaction.setFii(fii);
+        transaction.setQuantity(request.quantity());
+        transaction.setUnitPrice(request.unitPrice());
+        transaction.setDate(request.date());
+        transaction.setType(request.type());
+
+        return transaction;
+    }
+
+
+
     // Model to Response
     public GetFiiResponse toFiiResponse(FiiModel fii){
 
@@ -72,6 +90,21 @@ public class Mapper {
         );
 
     }
+
+    public GetTransactionResponse toTransactionResponse(TransactionModel transaction){
+
+        return new GetTransactionResponse(
+                transaction.getId(),
+                transaction.getQuantity(),
+                transaction.getUnitPrice(),
+                transaction.getDate(),
+                transaction.getTotalExpense(),
+                transaction.getType()
+        );
+
+    }
+
+
 
 }
 

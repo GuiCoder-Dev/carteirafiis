@@ -19,6 +19,7 @@ public class WebConfig {
 
         String[] routesUser = {"/users/**"};
         String[] routesFiis = {"/fiis/**"};
+        String[] routesTranscation = {"/transactions/**"};
 
 
         @Bean
@@ -51,6 +52,7 @@ public class WebConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(routesUser).permitAll()
                         .requestMatchers(routesFiis).permitAll()
+                        .requestMatchers(routesTranscation).permitAll()
                         .anyRequest().authenticated()
                 )
 
