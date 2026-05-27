@@ -4,6 +4,7 @@ import carteirafiis.carteira.controller.request.PostTransactionRequest;
 import carteirafiis.carteira.controller.response.GetTransactionResponse;
 import carteirafiis.carteira.mapper.Mapper;
 import carteirafiis.carteira.model.FiiModel;
+import carteirafiis.carteira.model.TransactionModel;
 import carteirafiis.carteira.service.FiiService;
 import carteirafiis.carteira.service.TransactionService;
 import jakarta.validation.Valid;
@@ -38,6 +39,13 @@ public class TransactionController {
     @ResponseStatus(HttpStatus.OK)
     public Page<GetTransactionResponse> listTransaction(@PageableDefault(page = 0, size = 10) Pageable pageable){
         return transactionService.listTransaction(pageable).map(mapper::toTransactionResponse);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteTransaction(@PathVariable Integer id){
+        TransactionModel transaction = transactionService.getById(id);
+        transactionService.deleteTransaction(transaction);
     }
 
 

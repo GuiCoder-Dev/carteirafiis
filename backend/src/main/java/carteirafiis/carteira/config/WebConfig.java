@@ -20,6 +20,8 @@ public class WebConfig {
         String[] routesUser = {"/users/**"};
         String[] routesFiis = {"/fiis/**"};
         String[] routesTranscation = {"/transactions/**"};
+        String[] routesWallet =  {"/wallets/**"};
+        String[] routesEarnings = { "/earnings/**"};
 
 
         @Bean
@@ -53,13 +55,13 @@ public class WebConfig {
                         .requestMatchers(routesUser).permitAll()
                         .requestMatchers(routesFiis).permitAll()
                         .requestMatchers(routesTranscation).permitAll()
+                        .requestMatchers(routesWallet).permitAll()
+                        .requestMatchers(routesEarnings).permitAll()
                         .anyRequest().authenticated()
                 )
 
                 .build();
     }
-
-
 
 }
 

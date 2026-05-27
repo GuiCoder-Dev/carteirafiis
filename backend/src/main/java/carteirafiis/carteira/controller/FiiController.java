@@ -46,7 +46,7 @@ public class FiiController {
 
     @PutMapping("/updates/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateFii(@PathVariable int id, @RequestBody @Valid PutFiiRequest fii){
+    public void updateFii(@PathVariable int id, @RequestBody PutFiiRequest fii){
         UserModel user = userService.getById(id);
         fiiService.updateFii(mapper.toFiiModelPut(fii, user));
     }

@@ -68,5 +68,21 @@ public class TransactionService {
         return transactionRepository.findAll(pageable);
     }
 
+    // deletar (delete)
+    public void deleteTransaction(TransactionModel transaction){
+
+        if (transaction.getType() == TransactionType.COMPRA) {
+
+            int totalNow = getQuantity(transaction.getFii().getId());
+            int totalAfterDelete = totalNow - transaction.getQuantity();
+
+            if (totalAfterDelete < 0) {
+                throw new RuntimeException("It is not possible to delete this purchase as it will leave the quantity negative.");
+            }
+        }
+
+        transactionRepository.delete(transaction);
+    }
+
 
 }

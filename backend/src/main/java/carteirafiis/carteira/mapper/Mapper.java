@@ -1,13 +1,12 @@
 package carteirafiis.carteira.mapper;
 
-import carteirafiis.carteira.controller.request.PostFiiRequest;
-import carteirafiis.carteira.controller.request.PostTransactionRequest;
-import carteirafiis.carteira.controller.request.PostUserRequest;
-import carteirafiis.carteira.controller.request.PutFiiRequest;
+import carteirafiis.carteira.controller.request.*;
+import carteirafiis.carteira.controller.response.GetEarningsResponse;
 import carteirafiis.carteira.controller.response.GetFiiResponse;
 import carteirafiis.carteira.controller.response.GetTransactionResponse;
 import carteirafiis.carteira.enums.user.Role;
 import carteirafiis.carteira.enums.user.Status;
+import carteirafiis.carteira.model.EarningsModel;
 import carteirafiis.carteira.model.FiiModel;
 import carteirafiis.carteira.model.TransactionModel;
 import carteirafiis.carteira.model.UserModel;
@@ -55,7 +54,6 @@ public class Mapper {
 
         FiiModel fii = new FiiModel();
 
-        fii.setId(user.getId());
         fii.setUser(user);
 
         fii.setCode(request.code() != null ? request.code() : fii.getCode());
@@ -78,7 +76,28 @@ public class Mapper {
         return transaction;
     }
 
+    public EarningsModel toEarningsModelPost(PostEarningsRequest request, FiiModel fii){
 
+        EarningsModel earnings = new EarningsModel();
+
+        earnings.setFii(fii);
+        earnings.setUnitValuePayment(request.unitValuePayment());
+        earnings.setPaymentDate(request.paymentDate());
+
+        return earnings;
+    }
+
+    public EarningsModel toEarningsModelPut(PutEarningRequest request, FiiModel fii, Integer id){
+
+        EarningsModel earnings = new EarningsModel();
+
+        earnings.setId(id);
+        earnings.setFii(fii);
+        earnings.setUnitValuePayment(request.unitValuePayment() != null ? request.unitValuePayment() : earnings.getUnitValuePayment());
+        earnings.setPaymentDate(request.paymentDate() != null ? request.paymentDate() : earnings.getPaymentDate());
+
+        return earnings;
+    }
 
     // Model to Response
     public GetFiiResponse toFiiResponse(FiiModel fii){
@@ -100,6 +119,18 @@ public class Mapper {
                 transaction.getDate(),
                 transaction.getTotalExpense(),
                 transaction.getType()
+        );
+
+    }
+
+    public GetEarningsResponse toEarningsResponse(EarningsModel earnings){
+
+        return new GetEarningsResponse(
+                earnings.getId(),
+                earnings.getUnitValuePayment(),
+                earnings.getPaymentDate(),
+                earnings.getTotalGain(),
+                earnings.getFii().getCode()
         );
 
     }
