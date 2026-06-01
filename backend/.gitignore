@@ -1,0 +1,17 @@
+### IntelliJ ###
+.idea/
+*.iws
+*.iml
+*.ipr
+
+### Maven ###
+target/
+
+### Spring ###
+*.jar
+*.war
+*.ear
+application-prod.properties
+
+### Env ###
+.env
