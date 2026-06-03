@@ -6,9 +6,6 @@ import jakarta.validation.constraints.NotNull;
 
 public record PostFiiRequest(
 
-        @NotNull(message = "user_id cannot be empty")
-        Integer user_id,
-
         @NotBlank(message = "code cannot be empty")
         String code,
 

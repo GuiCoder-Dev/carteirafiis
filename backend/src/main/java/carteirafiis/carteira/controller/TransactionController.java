@@ -28,6 +28,7 @@ public class TransactionController {
         this.mapper = mapper;
     }
 
+    // JWT OK
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
     public void createTransaction(@RequestBody @Valid PostTransactionRequest transaction) {
@@ -35,12 +36,14 @@ public class TransactionController {
         transactionService.createTransaction(mapper.toTransactionModelPost(transaction, fii_id));
     }
 
+    // JWT OK
     @GetMapping("/lists")
     @ResponseStatus(HttpStatus.OK)
     public Page<GetTransactionResponse> listTransaction(@PageableDefault(page = 0, size = 10) Pageable pageable){
         return transactionService.listTransaction(pageable).map(mapper::toTransactionResponse);
     }
 
+    // JWT OK
     @DeleteMapping("/delete/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTransaction(@PathVariable Integer id){

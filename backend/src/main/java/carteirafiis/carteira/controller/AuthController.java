@@ -31,7 +31,7 @@ public class AuthController {
 
         Authentication auth = authenticationManager.authenticate(authToken);
 
-        String token = jwtService.generateToken((UserModel)  auth.getPrincipal());
+        String token = jwtService.generateToken((UserModel)auth.getPrincipal());
 
         return new AuthResponse(token);
     }

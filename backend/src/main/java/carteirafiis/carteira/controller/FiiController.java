@@ -7,6 +7,7 @@ import carteirafiis.carteira.controller.response.GetFiiResponse;
 import carteirafiis.carteira.mapper.Mapper;
 import carteirafiis.carteira.model.FiiModel;
 import carteirafiis.carteira.model.UserModel;
+import carteirafiis.carteira.security.AuthUtil;
 import carteirafiis.carteira.service.FiiService;
 import carteirafiis.carteira.service.UserService;
 import jakarta.validation.Valid;
@@ -22,35 +23,39 @@ public class FiiController {
 
 
     private final FiiService fiiService;
-    private final UserService userService;
     private final Mapper mapper;
+    private final AuthUtil authUtil;
 
-    public FiiController(FiiService fiiService, UserService userService, Mapper mapper) {
+    public FiiController(FiiService fiiService, UserService userService, Mapper mapper, AuthUtil authUtil) {
         this.fiiService = fiiService;
-        this.userService = userService;
         this.mapper = mapper;
+        this.authUtil = authUtil;
     }
 
+    // JWT OK
     @PostMapping("/creates")
     @ResponseStatus(HttpStatus.CREATED)
     public void createFii(@RequestBody @Valid PostFiiRequest fii){
-        UserModel userId = userService.getById(fii.user_id());
-        fiiService.createFii(mapper.toFiiModelPost(fii, userId));
+        UserModel user = authUtil.getLoggedUser();
+        fiiService.createFii(mapper.toFiiModelPost(fii, user));
     }
 
+    // JWT OK
     @GetMapping("/lists")
     @ResponseStatus(HttpStatus.OK)
     public Page<GetFiiResponse> listFii(@PageableDefault(page = 0, size = 10) Pageable pageable){
         return fiiService.listFii(pageable).map(mapper::toFiiResponse);
     }
 
+    // JWT OK
     @PutMapping("/updates/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateFii(@PathVariable int id, @RequestBody PutFiiRequest fii){
-        UserModel user = userService.getById(id);
-        fiiService.updateFii(mapper.toFiiModelPut(fii, user));
+    public void updateFii(@PathVariable int id, @RequestBody PutFiiRequest request){
+        FiiModel fii = fiiService.getById(id);
+        fiiService.updateFii(mapper.toFiiModelPut(request, fii));
     }
 
+    // JWT OK
     @DeleteMapping("/deletes/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteFii(@PathVariable int id){

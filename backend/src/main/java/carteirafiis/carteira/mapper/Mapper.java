@@ -50,15 +50,15 @@ public class Mapper {
         return fii;
     }
 
-    public FiiModel toFiiModelPut(PutFiiRequest request, UserModel user){
+    public FiiModel toFiiModelPut(PutFiiRequest request, FiiModel fii){
 
-        FiiModel fii = new FiiModel();
+        if (request.code() != null) {
+            fii.setCode(request.code());
+        }
 
-        fii.setUser(user);
-
-        fii.setCode(request.code() != null ? request.code() : fii.getCode());
-        fii.setType(request.type() != null ? request.type() : fii.getType());
-
+        if (request.type() != null) {
+            fii.setType(request.type());
+        }
 
         return fii;
     }
@@ -87,14 +87,15 @@ public class Mapper {
         return earnings;
     }
 
-    public EarningsModel toEarningsModelPut(PutEarningRequest request, FiiModel fii, Integer id){
+    public EarningsModel toEarningsModelPut(PutEarningRequest request, EarningsModel earnings){
 
-        EarningsModel earnings = new EarningsModel();
+        if(request.paymentDate() != null){
+            earnings.setPaymentDate(request.paymentDate());
+        }
 
-        earnings.setId(id);
-        earnings.setFii(fii);
-        earnings.setUnitValuePayment(request.unitValuePayment() != null ? request.unitValuePayment() : earnings.getUnitValuePayment());
-        earnings.setPaymentDate(request.paymentDate() != null ? request.paymentDate() : earnings.getPaymentDate());
+        if(request.unitValuePayment() != null){
+            earnings.setUnitValuePayment(request.unitValuePayment());
+        }
 
         return earnings;
     }

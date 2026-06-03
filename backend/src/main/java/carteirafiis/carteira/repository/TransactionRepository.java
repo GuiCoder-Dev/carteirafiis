@@ -2,6 +2,8 @@ package carteirafiis.carteira.repository;
 
 
 import carteirafiis.carteira.model.TransactionModel;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;
@@ -16,4 +18,6 @@ public interface TransactionRepository extends JpaRepository<TransactionModel,In
     List<TransactionModel> findByFiiId(Integer fiiId);
 
     List<TransactionModel> findByFii_IdAndDateLessThanEqual(Integer id, LocalDate now);
+
+    Page<TransactionModel> findByFii_UserId(Integer id, Pageable pageable);
 }

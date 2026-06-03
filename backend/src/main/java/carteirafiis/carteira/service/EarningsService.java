@@ -3,8 +3,10 @@ package carteirafiis.carteira.service;
 import carteirafiis.carteira.enums.transaction.TransactionType;
 import carteirafiis.carteira.model.EarningsModel;
 import carteirafiis.carteira.model.TransactionModel;
+import carteirafiis.carteira.model.UserModel;
 import carteirafiis.carteira.repository.EarningsRepository;
 import carteirafiis.carteira.repository.TransactionRepository;
+import carteirafiis.carteira.security.AuthUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,16 +19,25 @@ public class EarningsService {
 
     private final EarningsRepository earningsRepository;
     private final TransactionRepository transactionRepository;
+    private final AuthUtil authUtil;
 
 
-    public EarningsService(EarningsRepository earningsRepository, TransactionRepository transactionRepository) {
+    public EarningsService(EarningsRepository earningsRepository, TransactionRepository transactionRepository, AuthUtil authUtil) {
         this.earningsRepository = earningsRepository;
         this.transactionRepository = transactionRepository;
+        this.authUtil = authUtil;
     }
 
     // create earning (post)
 
     public void create(EarningsModel earningsModel) {
+
+        UserModel user = authUtil.getLoggedUser();
+
+        if(!earningsModel.getFii().getUser().getId().equals(user.getId())){
+            throw new RuntimeException("you do not have permission to create this earnings");
+        }
+
         List<TransactionModel> transactions = transactionRepository
                 .findByFii_UserIdAndDateLessThanEqual(earningsModel.getFii().getUser().getId(), earningsModel.getPaymentDate());
 
@@ -69,7 +80,8 @@ public class EarningsService {
 
     // list earning (get)
     public Page<EarningsModel> listEarnings(Pageable pageable) {
-        return earningsRepository.findAll(pageable);
+        UserModel user = authUtil.getLoggedUser();
+        return earningsRepository.findByFii_UserId(user.getId(), pageable);
     }
 
     // pega o Modelo com base no id
@@ -79,6 +91,13 @@ public class EarningsService {
 
     // atualizar (put)
     public void updateEarnings(EarningsModel earningsModel){
+
+        UserModel user = authUtil.getLoggedUser();
+
+        if(!earningsModel.getFii().getUser().getId().equals(user.getId())){
+            throw new RuntimeException("you do not have permission to update this earnings");
+        }
+
         List<TransactionModel> transactions = transactionRepository
                 .findByFii_UserIdAndDateLessThanEqual(earningsModel.getFii().getUser().getId(), earningsModel.getPaymentDate());
 
@@ -93,6 +112,13 @@ public class EarningsService {
 
     // deletar (delete)
     public void deleteEarnings(EarningsModel earningsModel){
+
+        UserModel user = authUtil.getLoggedUser();
+
+        if(!earningsModel.getFii().getUser().getId().equals(user.getId())){
+            throw new RuntimeException("you do not have permission to delete this earnings");
+        }
+
         earningsRepository.deleteById(earningsModel.getId());
     }
 

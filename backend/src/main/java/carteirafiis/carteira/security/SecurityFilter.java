@@ -34,7 +34,7 @@ public class SecurityFilter extends OncePerRequestFilter {
 
             String email = jwtService.validateToken(token);
 
-            UserDetails user =  authService.loadUserByUsername(email);
+            UserDetails user = authService.loadUserByUsername(email);
 
             UsernamePasswordAuthenticationToken authentication =
                     new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());

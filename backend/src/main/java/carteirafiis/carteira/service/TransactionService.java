@@ -2,7 +2,9 @@ package carteirafiis.carteira.service;
 
 import carteirafiis.carteira.enums.transaction.TransactionType;
 import carteirafiis.carteira.model.TransactionModel;
+import carteirafiis.carteira.model.UserModel;
 import carteirafiis.carteira.repository.TransactionRepository;
+import carteirafiis.carteira.security.AuthUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -13,14 +15,22 @@ import java.math.BigDecimal;
 public class TransactionService {
 
     private final TransactionRepository transactionRepository;
+    private final AuthUtil authUtil;
 
-    public TransactionService(TransactionRepository transactionRepository) {
+    public TransactionService(TransactionRepository transactionRepository, AuthUtil authUtil) {
         this.transactionRepository = transactionRepository;
+        this.authUtil = authUtil;
     }
 
     // create transaction (post)
 
     public void createTransaction(TransactionModel transaction){
+
+        UserModel user = authUtil.getLoggedUser();
+
+        if(!transaction.getFii().getUser().getId().equals(user.getId())){
+            throw new RuntimeException("you do not have permission to create this transaction");
+        }
 
         if(transaction.getType() == TransactionType.VENDA ){
             int totalQuantity = getQuantity(transaction.getFii().getId());
@@ -32,6 +42,7 @@ public class TransactionService {
 
         BigDecimal totalExpense = calculateTotalExpense(transaction);
         transaction.setTotalExpense(totalExpense);
+
 
         transactionRepository.save(transaction);
     }
@@ -65,11 +76,18 @@ public class TransactionService {
 
     // listar transactions (get)
     public Page<TransactionModel> listTransaction(Pageable pageable){
-        return transactionRepository.findAll(pageable);
+        UserModel user = authUtil.getLoggedUser();
+        return transactionRepository.findByFii_UserId(user.getId(), pageable);
     }
 
     // deletar (delete)
     public void deleteTransaction(TransactionModel transaction){
+
+        UserModel user = authUtil.getLoggedUser();
+
+        if(!transaction.getFii().getUser().getId().equals(user.getId())){
+            throw new RuntimeException("you do not have permission to delete this transaction");
+        }
 
         if (transaction.getType() == TransactionType.COMPRA) {
 
