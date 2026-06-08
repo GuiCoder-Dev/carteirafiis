@@ -1,5 +1,6 @@
 package carteirafiis.carteira.controller;
 
+import carteirafiis.carteira.controller.response.GetWalletAll;
 import carteirafiis.carteira.controller.response.GetWalletPositionResponse;
 import carteirafiis.carteira.service.WalletService;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -19,14 +20,16 @@ public class WalletController {
         this.walletService = walletService;
     }
 
-    @GetMapping("/position/{userId}")
+    @GetMapping("/position")
     @ResponseStatus(HttpStatus.OK)
-    public List<GetWalletPositionResponse> getPosition(@PathVariable Integer userId,
-    @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM") YearMonth month){
-            return walletService.getPositionByUser(userId, month);
+    public List<GetWalletPositionResponse> getPosition(@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM") YearMonth month){
+        return walletService.getPositionByUser(month);
     }
 
-    // fazer get
-
+    @GetMapping("/all")
+    @ResponseStatus(HttpStatus.OK)
+    public List<GetWalletAll> getAll(@RequestParam @DateTimeFormat(pattern = "yyyy-MM") YearMonth month){
+        return walletService.getAll(month);
+    }
 
 }

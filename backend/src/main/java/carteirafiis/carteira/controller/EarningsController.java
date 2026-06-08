@@ -7,6 +7,7 @@ import carteirafiis.carteira.controller.response.GetEarningsResponse;
 import carteirafiis.carteira.mapper.Mapper;
 import carteirafiis.carteira.model.EarningsModel;
 import carteirafiis.carteira.model.FiiModel;
+import carteirafiis.carteira.security.AuthUtil;
 import carteirafiis.carteira.service.EarningsService;
 import carteirafiis.carteira.service.FiiService;
 import jakarta.validation.Valid;
@@ -23,11 +24,13 @@ public class EarningsController {
     private final EarningsService earningsService;
     private final FiiService fiiService;
     private final Mapper mapper;
+    private final AuthUtil authUtil;
 
-    public EarningsController(EarningsService earningsService, FiiService fiiService, Mapper mapper) {
+    public EarningsController(EarningsService earningsService, FiiService fiiService, Mapper mapper, AuthUtil authUtil) {
         this.earningsService = earningsService;
         this.fiiService = fiiService;
         this.mapper = mapper;
+        this.authUtil = authUtil;
     }
 
     // JWT OK
@@ -42,7 +45,7 @@ public class EarningsController {
     @GetMapping("/lists")
     @ResponseStatus(HttpStatus.OK)
     public Page<GetEarningsResponse> listEarnings(@PageableDefault(page = 0, size = 10) Pageable pageable){
-        return earningsService.listEarnings(pageable).map(mapper::toEarningsResponse);
+        return earningsService.listEarnings(pageable);
     }
 
     // JWT OK

@@ -9,9 +9,8 @@ public record GetEarningsResponse(
     BigDecimal UnitValuePayment,
     LocalDate paymentDate,
     BigDecimal TotalGain,
-    String fiiCode
+    String fiiCode,
+    int quantity
 
-
-    // quando for implementar o JWT, colocar a "quantity" que vem do transaction
 ) {
 }

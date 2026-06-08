@@ -1,7 +1,10 @@
 package carteirafiis.carteira.service;
 
+import carteirafiis.carteira.controller.response.GetEarningsResponse;
 import carteirafiis.carteira.enums.transaction.TransactionType;
+import carteirafiis.carteira.mapper.Mapper;
 import carteirafiis.carteira.model.EarningsModel;
+import carteirafiis.carteira.model.FiiModel;
 import carteirafiis.carteira.model.TransactionModel;
 import carteirafiis.carteira.model.UserModel;
 import carteirafiis.carteira.repository.EarningsRepository;
@@ -20,12 +23,14 @@ public class EarningsService {
     private final EarningsRepository earningsRepository;
     private final TransactionRepository transactionRepository;
     private final AuthUtil authUtil;
+    private final Mapper mapper;
 
 
-    public EarningsService(EarningsRepository earningsRepository, TransactionRepository transactionRepository, AuthUtil authUtil) {
+    public EarningsService(EarningsRepository earningsRepository, TransactionRepository transactionRepository, AuthUtil authUtil, Mapper mapper) {
         this.earningsRepository = earningsRepository;
         this.transactionRepository = transactionRepository;
         this.authUtil = authUtil;
+        this.mapper = mapper;
     }
 
     // create earning (post)
@@ -34,16 +39,32 @@ public class EarningsService {
 
         UserModel user = authUtil.getLoggedUser();
 
-        if(!earningsModel.getFii().getUser().getId().equals(user.getId())){
+        if (!earningsModel.getFii().getUser().getId().equals(user.getId())) {
             throw new RuntimeException("you do not have permission to create this earnings");
         }
 
+        boolean alreadyExists = earningsRepository.existsByFiiAndPaymentDateBetween(
+                earningsModel.getFii(),
+                earningsModel.getPaymentDate().withDayOfMonth(1),
+                earningsModel.getPaymentDate().withDayOfMonth(
+                        earningsModel.getPaymentDate().lengthOfMonth()
+                )
+        );
+
+        if (alreadyExists) {
+            throw new RuntimeException("earnings already registered for this FII on this date");
+        }
+
         List<TransactionModel> transactions = transactionRepository
-                .findByFii_UserIdAndDateLessThanEqual(earningsModel.getFii().getUser().getId(), earningsModel.getPaymentDate());
+                .findByFii_UserIdAndDateLessThanEqual(
+                        earningsModel.getFii().getUser().getId(),
+                        earningsModel.getPaymentDate()
+                );
 
         int quantity = getQuantity(transactions, earningsModel.getFii().getId());
 
-        BigDecimal totalGain = earningsModel.getUnitValuePayment().multiply(BigDecimal.valueOf(quantity));
+        BigDecimal totalGain = earningsModel.getUnitValuePayment()
+                .multiply(BigDecimal.valueOf(quantity));
 
         EarningsModel earnings = new EarningsModel();
         earnings.setFii(earningsModel.getFii());
@@ -79,9 +100,21 @@ public class EarningsService {
     }
 
     // list earning (get)
-    public Page<EarningsModel> listEarnings(Pageable pageable) {
+    public Page<GetEarningsResponse> listEarnings(Pageable pageable) {
+
         UserModel user = authUtil.getLoggedUser();
-        return earningsRepository.findByFii_UserId(user.getId(), pageable);
+
+        return earningsRepository.findByFii_UserId(user.getId(), pageable)
+                .map(earning -> {
+                    int quantity = getQuantity(
+                            transactionRepository.findByFii_IdAndDateLessThanEqual(
+                                    earning.getFii().getId(),
+                                    earning.getPaymentDate()
+                            ),
+                            earning.getFii().getId()
+                    );
+                    return mapper.toEarningsResponse(earning, quantity);
+                });
     }
 
     // pega o Modelo com base no id

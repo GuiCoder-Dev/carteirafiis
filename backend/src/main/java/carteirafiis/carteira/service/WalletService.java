@@ -1,9 +1,14 @@
 package carteirafiis.carteira.service;
 
+import carteirafiis.carteira.controller.response.GetWalletAll;
 import carteirafiis.carteira.controller.response.GetWalletPositionResponse;
 import carteirafiis.carteira.enums.transaction.TransactionType;
+import carteirafiis.carteira.model.EarningsModel;
 import carteirafiis.carteira.model.TransactionModel;
+import carteirafiis.carteira.model.UserModel;
+import carteirafiis.carteira.repository.EarningsRepository;
 import carteirafiis.carteira.repository.TransactionRepository;
+import carteirafiis.carteira.security.AuthUtil;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -18,22 +23,29 @@ import java.util.stream.Collectors;
 public class WalletService {
 
     private final TransactionRepository transactionRepository;
+    private final AuthUtil authUtil;
+    private final EarningsRepository earningsRepository;
 
-    public WalletService(TransactionRepository transactionRepository) {
+
+    public WalletService(TransactionRepository transactionRepository, AuthUtil authUtil, EarningsRepository earningsRepository) {
         this.transactionRepository = transactionRepository;
+        this.authUtil = authUtil;
+        this.earningsRepository = earningsRepository;
     }
 
-    public List<GetWalletPositionResponse> getPositionByUser(Integer userId, YearMonth month) {
+    public List<GetWalletPositionResponse> getPositionByUser(YearMonth month) {
+
+        UserModel user = authUtil.getLoggedUser();
 
         LocalDate endOfMonth = month != null ? month.atEndOfMonth() : LocalDate.now();
         LocalDate startOfMonth = month != null ? month.atDay(1) : endOfMonth.withDayOfMonth(1);
 
         List<TransactionModel> allTransactions = transactionRepository
-                .findByFii_UserIdAndDateLessThanEqual(userId, endOfMonth);
+                .findByFii_UserIdAndDateLessThanEqual(user.getId(), endOfMonth);
 
 
         List<TransactionModel> monthTransactions = transactionRepository
-                .findByFii_UserIdAndDateBetween(userId, startOfMonth, endOfMonth);
+                .findByFii_UserIdAndDateBetween(user.getId(), startOfMonth, endOfMonth);
 
 
         Map<String, List<TransactionModel>> groupedTotal = allTransactions.stream()
@@ -87,5 +99,49 @@ public class WalletService {
                 .filter(p -> p.totalAccumulatedQuantity() > 0)
                 .toList();
     }
+
+
+    public List<GetWalletAll> getAll(YearMonth month) {
+
+        UserModel user = authUtil.getLoggedUser();
+
+        LocalDate endOfMonth = month.atEndOfMonth();
+        LocalDate startOfMonth = month.atDay(1);
+
+        List<GetWalletPositionResponse> positions = getPositionByUser(month);
+
+        List<EarningsModel> earnings = earningsRepository
+                .findByFii_UserIdAndPaymentDateBetween(user.getId(), startOfMonth, endOfMonth);
+
+        Map<String, EarningsModel> earningsByCode = earnings.stream()
+                .collect(Collectors.toMap(e -> e.getFii().getCode(), e -> e));
+
+        return positions.stream()
+                .map(position -> {
+                    EarningsModel earning = earningsByCode.get(position.fiiCode());
+
+                    BigDecimal unitValuePayment = earning != null ? earning.getUnitValuePayment() : BigDecimal.ZERO;
+                    BigDecimal totalGain = earning != null ? earning.getTotalGain() : BigDecimal.ZERO;
+
+                    return new GetWalletAll(
+                            position.fiiCode(),
+                            position.type(),
+                            position.monthlyQuantity(),
+                            position.totalAccumulatedQuantity(),
+                            position.monthlyExpense(),
+                            position.totalExpense(),
+                            position.averagePrice(),
+                            unitValuePayment,
+                            totalGain
+                    );
+
+                })
+                .toList();
+
+
+    }
+
+
+
 
 }

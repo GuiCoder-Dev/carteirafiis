@@ -124,14 +124,15 @@ public class Mapper {
 
     }
 
-    public GetEarningsResponse toEarningsResponse(EarningsModel earnings){
+    public GetEarningsResponse toEarningsResponse(EarningsModel earnings, int quantity){
 
         return new GetEarningsResponse(
                 earnings.getId(),
                 earnings.getUnitValuePayment(),
                 earnings.getPaymentDate(),
                 earnings.getTotalGain(),
-                earnings.getFii().getCode()
+                earnings.getFii().getCode(),
+                quantity
         );
 
     }
