@@ -22,7 +22,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig {
 
 
-    String[] routesUser = {"/users/creates"};
+    String[] routesUser = {"/users/**"};
     String[] routesAuth =  {"/auth/**"};
 
 

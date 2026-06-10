@@ -100,7 +100,6 @@ public class WalletService {
                 .toList();
     }
 
-
     public List<GetWalletAll> getAll(YearMonth month) {
 
         UserModel user = authUtil.getLoggedUser();

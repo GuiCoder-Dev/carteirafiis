@@ -10,13 +10,13 @@ public record PostUserRequest(
         @NotBlank(message = "name cannot be empty")
         String name,
 
-        @NotBlank(message = "email cannot be empty ")
+        @NotBlank(message = "email cannot be empty")
         @EmailAvaliable
         @EmailUnique
         @Email
         String email,
 
-        @NotBlank(message = "password cannot be empty ")
+        @NotBlank(message = "password cannot be empty")
         String password
 
 ) {

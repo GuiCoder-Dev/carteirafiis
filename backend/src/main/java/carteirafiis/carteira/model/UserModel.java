@@ -10,6 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -40,6 +41,15 @@ public class UserModel implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Column(name = "verification_code")
+    private String verificationCode;
+
+    @Column(name = "verification_code_expiration")
+    private LocalDateTime verificationCodeExpiration;
+
+    @Column(name = "email_verified")
+    private boolean emailVerified = false;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
@@ -67,7 +77,7 @@ public class UserModel implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return this.status == Status.ACTIVE;
+        return this.status == Status.ACTIVE && this.emailVerified;
     }
 
 }

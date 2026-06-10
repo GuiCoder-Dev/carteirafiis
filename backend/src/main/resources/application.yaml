@@ -22,5 +22,8 @@ api:
     token:
       secret: ${JWT_SECRET}
 
+resend:
+  api-key: ${RESEND_API_KEY}
+
 kind: Application
 

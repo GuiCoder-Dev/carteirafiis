@@ -4,7 +4,6 @@ import carteirafiis.carteira.controller.response.GetEarningsResponse;
 import carteirafiis.carteira.enums.transaction.TransactionType;
 import carteirafiis.carteira.mapper.Mapper;
 import carteirafiis.carteira.model.EarningsModel;
-import carteirafiis.carteira.model.FiiModel;
 import carteirafiis.carteira.model.TransactionModel;
 import carteirafiis.carteira.model.UserModel;
 import carteirafiis.carteira.repository.EarningsRepository;
