@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fiiApi }         from '../../services/fiiApi';
+import { fiiApi } from '../../services/fiiApi';
 import { transactionApi } from '../../services/transactionApi';
 
 export default function TransactionManager({ addToast, navigateToTab }) {
@@ -7,7 +7,7 @@ export default function TransactionManager({ addToast, navigateToTab }) {
   const [fiis, setFiis] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Estados do formulário
+
   const [fiiId, setFiiId] = useState('');
   const [quantity, setQuantity] = useState('');
   const [unitPrice, setUnitPrice] = useState('');
@@ -21,7 +21,7 @@ export default function TransactionManager({ addToast, navigateToTab }) {
     setLoading(true);
     try {
       const fiisData = await fiiApi.listFiis();
-      const txsData  = await transactionApi.listTransactions();
+      const txsData = await transactionApi.listTransactions();
 
       const loadedFiis = fiisData?.content || [];
       setFiis(loadedFiis);
@@ -40,7 +40,7 @@ export default function TransactionManager({ addToast, navigateToTab }) {
 
   useEffect(() => {
     fetchData();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -109,7 +109,7 @@ export default function TransactionManager({ addToast, navigateToTab }) {
       </div>
 
       <div className="dashboard-grid form-list-grid">
-        {/* Formulário */}
+        { }
         <div className="glass-card" style={{ height: 'fit-content' }}>
           <h2 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '1.5rem' }}>Registrar Transação</h2>
 
@@ -222,12 +222,12 @@ export default function TransactionManager({ addToast, navigateToTab }) {
           )}
         </div>
 
-        {/* Lista */}
+        { }
         <div className="glass-card scrollable-card">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '1rem' }}>
             <h2 style={{ fontSize: '1.25rem', fontWeight: 700, margin: 0 }}>Registro de Operações</h2>
-            
-            {/* Filtros */}
+
+            { }
             <div style={{ display: 'flex', gap: '0.75rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
                 <label htmlFor="filter-month" style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--txt-secondary)' }}>Mês:</label>
@@ -302,26 +302,26 @@ export default function TransactionManager({ addToast, navigateToTab }) {
                     .map((tx) => {
                       const fiiCode = tx.fiiCode || (fiis.find(f => f.id === tx.fii_id || f.id === tx.fiiId) || {}).code || '—';
                       return (
-                      <tr key={tx.id}>
-                        <td style={{ fontSize: '0.85rem', color: 'var(--txt-secondary)' }}>
-                          {new Date(tx.date).toLocaleDateString('pt-BR', { timeZone: 'UTC' })}
-                        </td>
-                        <td style={{ fontWeight: 700, color: '#ffffff' }}>{fiiCode}</td>
-                        <td>
-                          <span className={`badge badge-${tx.type.toLowerCase()}`}>{tx.type}</span>
-                        </td>
-                        <td style={{ textAlign: 'right' }}>{tx.quantity}</td>
-                        <td style={{ textAlign: 'right' }}>
-                          R$ {tx.unitPrice.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                        </td>
-                        <td style={{ textAlign: 'right', fontWeight: 600 }}>
-                          R$ {tx.totalExpense.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                        </td>
-                        <td style={{ textAlign: 'right' }}>
-                          <button className="btn btn-danger btn-sm" onClick={() => handleDelete(tx.id)}>Excluir</button>
-                        </td>
-                      </tr>
-                    );
+                        <tr key={tx.id}>
+                          <td style={{ fontSize: '0.85rem', color: 'var(--txt-secondary)' }}>
+                            {new Date(tx.date).toLocaleDateString('pt-BR', { timeZone: 'UTC' })}
+                          </td>
+                          <td style={{ fontWeight: 700, color: '#ffffff' }}>{fiiCode}</td>
+                          <td>
+                            <span className={`badge badge-${tx.type.toLowerCase()}`}>{tx.type}</span>
+                          </td>
+                          <td style={{ textAlign: 'right' }}>{tx.quantity}</td>
+                          <td style={{ textAlign: 'right' }}>
+                            R$ {tx.unitPrice.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                          </td>
+                          <td style={{ textAlign: 'right', fontWeight: 600 }}>
+                            R$ {tx.totalExpense.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                          </td>
+                          <td style={{ textAlign: 'right' }}>
+                            <button className="btn btn-danger btn-sm" onClick={() => handleDelete(tx.id)}>Excluir</button>
+                          </td>
+                        </tr>
+                      );
                     })}
                 </tbody>
               </table>

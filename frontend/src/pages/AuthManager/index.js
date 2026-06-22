@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { authApi } from '../../services/authApi';
 
-// Erros do backend que indicam que o cadastro foi criado mas o email falhou.
-// Nesses casos, avançamos para a tela de verificação mesmo assim.
 const EMAIL_SEND_ERRORS = [
   'failed to send verification email',
   'falha ao enviar email',
@@ -17,24 +15,24 @@ const isEmailSendError = (message = '') =>
     message.toLowerCase().includes(keyword)
   );
 
-// Ícones de olho para mostrar/ocultar senha
+
 const EyeIcon = () => (
   <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-    <circle cx="12" cy="12" r="3"/>
+    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+    <circle cx="12" cy="12" r="3" />
   </svg>
 );
 
 const EyeOffIcon = () => (
   <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
-    <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
-    <line x1="1" y1="1" x2="23" y2="23"/>
+    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" />
+    <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19" />
+    <line x1="1" y1="1" x2="23" y2="23" />
   </svg>
 );
 
 export default function AuthManager({ onAuthSuccess, addToast }) {
-  const [mode, setMode] = useState('login'); // 'login' | 'register' | 'verify'
+  const [mode, setMode] = useState('login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
@@ -59,15 +57,14 @@ export default function AuthManager({ onAuthSuccess, addToast }) {
           await authApi.register(name, email, password);
           addToast('Cadastro realizado! Verifique seu e-mail para obter o código.', 'success');
         } catch (registerErr) {
-          // Se o backend criou o usuário mas falhou ao enviar o email,
-          // avançamos mesmo assim para a tela de verificação com um aviso.
+
           if (isEmailSendError(registerErr.message)) {
             addToast(
               'Conta criada! O envio do e-mail de verificação falhou — contacte o suporte ou tente reenviar o código.',
               'warning'
             );
           } else {
-            // Erro real de cadastro (ex: e-mail já existe) — não avançar
+
             throw registerErr;
           }
         }
@@ -97,7 +94,7 @@ export default function AuthManager({ onAuthSuccess, addToast }) {
       await authApi.resendCode(email);
       addToast('Código de verificação reenviado!', 'success');
     } catch (err) {
-      // Mesmo que o reenvio falhe por problemas de email, não bloqueamos o usuário
+
       if (isEmailSendError(err.message)) {
         addToast('Falha ao reenviar o código — verifique as configurações de e-mail do servidor.', 'warning');
       } else {
@@ -115,7 +112,7 @@ export default function AuthManager({ onAuthSuccess, addToast }) {
     setShowPassword(false);
   };
 
-  // Estilos do botão de mostrar/ocultar senha
+
   const eyeBtnStyle = {
     position: 'absolute',
     right: '12px',
@@ -154,14 +151,14 @@ export default function AuthManager({ onAuthSuccess, addToast }) {
             </span>
           </div>
           <h1 className="auth-title">
-            {mode === 'login'    && 'Bem-vindo de volta'}
+            {mode === 'login' && 'Bem-vindo de volta'}
             {mode === 'register' && 'Criar sua conta'}
-            {mode === 'verify'   && 'Verificar E-mail'}
+            {mode === 'verify' && 'Verificar E-mail'}
           </h1>
           <p className="auth-subtitle">
-            {mode === 'login'    && 'Acesse sua carteira de fundos imobiliários'}
+            {mode === 'login' && 'Acesse sua carteira de fundos imobiliários'}
             {mode === 'register' && 'Cadastre-se para começar a controlar seus FIIs'}
-            {mode === 'verify'   && `Enviamos um código de verificação para ${email}`}
+            {mode === 'verify' && `Enviamos um código de verificação para ${email}`}
           </p>
         </div>
 
@@ -215,7 +212,7 @@ export default function AuthManager({ onAuthSuccess, addToast }) {
 
               <div className="form-group">
                 <label className="form-label" htmlFor="auth-password">Senha</label>
-                {/* Wrapper relativo para posicionar o botão de olho */}
+                { }
                 <div style={{ position: 'relative' }}>
                   <input
                     id="auth-password"
@@ -241,7 +238,7 @@ export default function AuthManager({ onAuthSuccess, addToast }) {
             </>
           )}
 
-          {/* Campo código de verificação */}
+          { }
           {mode === 'verify' && (
             <div className="form-group">
               <label className="form-label" htmlFor="auth-code">Código de Verificação</label>
@@ -269,14 +266,14 @@ export default function AuthManager({ onAuthSuccess, addToast }) {
             disabled={loading}
           >
             {loading ? 'Processando...' : (
-              mode === 'login'    ? 'Entrar'           :
-              mode === 'register' ? 'Criar Conta'      :
-                                    'Confirmar Código'
+              mode === 'login' ? 'Entrar' :
+                mode === 'register' ? 'Criar Conta' :
+                  'Confirmar Código'
             )}
           </button>
         </form>
 
-        {/* Botão de reenvio de código */}
+        { }
         {mode === 'verify' && (
           <div style={{ textAlign: 'center', marginTop: '1rem' }}>
             <button
@@ -289,7 +286,7 @@ export default function AuthManager({ onAuthSuccess, addToast }) {
           </div>
         )}
 
-        {/* Rodapé de navegação entre modos */}
+        { }
         <div className="auth-footer">
           {mode === 'login' ? (
             <p>

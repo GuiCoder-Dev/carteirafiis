@@ -24,7 +24,7 @@ export default function FiiManager({ addToast }) {
 
   useEffect(() => {
     fetchFiis();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -91,7 +91,7 @@ export default function FiiManager({ addToast }) {
       </div>
 
       <div className="dashboard-grid form-list-grid">
-        {/* Formulário */}
+        { }
         <div className="glass-card" style={{ height: 'fit-content' }}>
           <h2 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '1.5rem' }}>
             {editingId ? 'Editar FII' : 'Cadastrar Novo FII'}
@@ -145,7 +145,7 @@ export default function FiiManager({ addToast }) {
           </form>
         </div>
 
-        {/* Lista */}
+        { }
         <div className="glass-card scrollable-card">
           <h2 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '1.25rem' }}>Ativos Cadastrados</h2>
 

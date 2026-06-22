@@ -24,15 +24,15 @@ export default function Dashboard({ addToast }) {
 
   useEffect(() => {
     fetchDashboardData();
-  }, [selectedMonth]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [selectedMonth]);
 
-  // Cálculos gerais
-  const totalCost   = positions.reduce((acc, curr) => acc + (curr.totalExpense || 0), 0);
-  const totalGains  = positions.reduce((acc, curr) => acc + (curr.totalGain    || 0), 0);
+
+  const totalCost = positions.reduce((acc, curr) => acc + (curr.totalExpense || 0), 0);
+  const totalGains = positions.reduce((acc, curr) => acc + (curr.totalGain || 0), 0);
   const totalQuantity = positions.reduce((acc, curr) => acc + (curr.totalAccumulatedQuantity || 0), 0);
-  const averageYoc  = totalCost > 0 ? (totalGains / totalCost) * 100 : 0;
+  const averageYoc = totalCost > 0 ? (totalGains / totalCost) * 100 : 0;
 
-  // Encontra o FII mais rentável (maior relação retorno / investimento)
+
   let mostProfitableFii = null;
   let maxFiiYoc = -1;
 
@@ -46,7 +46,7 @@ export default function Dashboard({ addToast }) {
     }
   });
 
-  // Alocação por segmento
+
   const allocationMap = {};
   positions.forEach(pos => {
     const t = pos.type || 'OUTROS';
@@ -58,12 +58,12 @@ export default function Dashboard({ addToast }) {
 
   const getTypeColor = (type) => {
     switch (type.toUpperCase()) {
-      case 'PAPEL':     return '#6366f1';
-      case 'TIJOLO':    return '#10b981';
-      case 'VAREJO':    return '#f59e0b';
-      case 'AGRO':      return '#ec4899';
+      case 'PAPEL': return '#6366f1';
+      case 'TIJOLO': return '#10b981';
+      case 'VAREJO': return '#f59e0b';
+      case 'AGRO': return '#ec4899';
       case 'LOGISTICA': return '#0ea5e9';
-      default:          return '#8b5cf6';
+      default: return '#8b5cf6';
     }
   };
 
@@ -103,7 +103,7 @@ export default function Dashboard({ addToast }) {
         </div>
       ) : (
         <>
-          {/* Métricas */}
+          { }
           <div className="metrics-grid">
             <div className="glass-card metric-card">
               <span className="metric-title">Patrimônio Acumulado (Custo)</span>
@@ -144,7 +144,7 @@ export default function Dashboard({ addToast }) {
             </div>
           </div>
 
-          {/* Tabela de posição + alocação */}
+          { }
           <div className="dashboard-grid">
             <div className="glass-card scrollable-card">
               <h2 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '1rem' }}>Posição Consolidada</h2>
@@ -204,7 +204,7 @@ export default function Dashboard({ addToast }) {
               )}
             </div>
 
-            {/* Divisão por segmento */}
+            { }
             <div className="glass-card">
               <h2 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '1rem' }}>Divisão por Segmento</h2>
               {positions.length === 0 ? (

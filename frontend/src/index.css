@@ -1,32 +1,37 @@
-/* 
- * Carteira FIIs - Premium Sleek Dark Design System
- * Built with vanilla CSS variables and animations
- */
-
 :root {
   --font-primary: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  
-  /* Color Palette (HSL based) */
-  --bg-main: 224 25% 6%;         /* #0b0c10 */
-  --bg-surface: 223 20% 10%;     /* #12141c */
+
+
+  --bg-main: 224 25% 6%;
+  /* #0b0c10 */
+  --bg-surface: 223 20% 10%;
+  /* #12141c */
   --bg-surface-glass: 223 20% 10% / 0.55;
-  --bg-card: 223 20% 12%;        /* #161924 */
+  --bg-card: 223 20% 12%;
+  /* #161924 */
   --bg-card-glass: 223 20% 12% / 0.45;
-  
-  --color-primary: 245 80% 64%;   /* #6366f1 - Indigo */
+
+  --color-primary: 245 80% 64%;
+  /* #6366f1 - Indigo */
   --color-primary-hover: 245 80% 58%;
-  --color-secondary: 263 70% 50%; /* #8b5cf6 - Violet */
-  --color-success: 158 79% 42%;   /* #10b981 - Emerald Green */
-  --color-danger: 343 89% 60%;    /* #f43f5e - Coral Red */
-  --color-warning: 38 92% 50%;    /* #f59e0b - Amber */
-  --color-info: 199 89% 48%;       /* #0ea5e9 - Cyan */
-  
-  /* Txt Colors */
-  --txt-primary: 0 0% 98%;        /* #f9f9f9 */
-  --txt-secondary: 220 12% 70%;   /* #a3a9b8 */
-  --txt-muted: 220 9% 45%;        /* #676d7e */
-  
-  /* Borders & Shadows */
+  --color-secondary: 263 70% 50%;
+  /* #8b5cf6 - Violet */
+  --color-success: 158 79% 42%;
+  /* #10b981 - Emerald Green */
+  --color-danger: 343 89% 60%;
+  /* #f43f5e - Coral Red */
+  --color-warning: 38 92% 50%;
+  /* #f59e0b - Amber */
+  --color-info: 199 89% 48%;
+  /* #0ea5e9 - Cyan */
+
+  --txt-primary: 0 0% 98%;
+  /* #f9f9f9 */
+  --txt-secondary: 220 12% 70%;
+  /* #a3a9b8 */
+  --txt-muted: 220 9% 45%;
+  /* #676d7e */
+
   --border-color: 223 15% 18% / 0.5;
   --border-glow: 245 80% 64% / 0.15;
   --radius-sm: 6px;
@@ -36,12 +41,11 @@
   --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.6);
   --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.25);
-  
+
   --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Base Reset */
 * {
   margin: 0;
   padding: 0;
@@ -58,32 +62,32 @@ body {
   line-height: 1.5;
 }
 
-/* Scrollbar Styling */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
+
 ::-webkit-scrollbar-track {
   background: hsl(var(--bg-main));
 }
+
 ::-webkit-scrollbar-thumb {
   background: hsl(var(--border-color));
   border-radius: 4px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--color-primary) / 0.4);
 }
 
-/* Core Layout Shell */
 .app-shell {
   display: flex;
   min-height: 100vh;
   position: relative;
   background: radial-gradient(circle at 80% 20%, hsl(var(--color-primary) / 0.05) 0%, transparent 40%),
-              radial-gradient(circle at 10% 80%, hsl(var(--color-secondary) / 0.05) 0%, transparent 40%);
+    radial-gradient(circle at 10% 80%, hsl(var(--color-secondary) / 0.05) 0%, transparent 40%);
 }
 
-/* Navigation Sidebar */
 .app-sidebar {
   width: 280px;
   background-color: hsl(var(--bg-surface-glass));
@@ -225,7 +229,6 @@ body {
   transform: scale(1.05);
 }
 
-/* App Main Content Area */
 .app-main {
   flex-grow: 1;
   margin-left: 280px;
@@ -258,7 +261,6 @@ body {
   color: hsl(var(--txt-secondary));
 }
 
-/* Cards & Glassmorphism */
 .glass-card {
   background: hsl(var(--bg-card-glass));
   backdrop-filter: blur(16px);
@@ -276,7 +278,6 @@ body {
   transform: translateY(-2px);
 }
 
-/* Scrollable card: constrains height and scrolls the table inside */
 .glass-card.scrollable-card {
   display: flex;
   flex-direction: column;
@@ -288,10 +289,10 @@ body {
   flex: 1 1 0;
   min-height: 0;
   overflow-y: auto;
-  max-height: none; /* override the default .table-responsive max-height */
+  max-height: none;
 }
 
-/* Grid Layouts */
+
 .metrics-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -321,12 +322,15 @@ body {
 .metric-card.success::before {
   background: hsl(var(--color-success));
 }
+
 .metric-card.danger::before {
   background: hsl(var(--color-danger));
 }
+
 .metric-card.warning::before {
   background: hsl(var(--color-warning));
 }
+
 .metric-card.info::before {
   background: hsl(var(--color-info));
 }
@@ -355,8 +359,13 @@ body {
   font-weight: 600;
 }
 
-.trend-up { color: hsl(var(--color-success)); }
-.trend-down { color: hsl(var(--color-danger)); }
+.trend-up {
+  color: hsl(var(--color-success));
+}
+
+.trend-down {
+  color: hsl(var(--color-danger));
+}
 
 /* Dashboard Sections */
 .dashboard-grid {
@@ -371,13 +380,14 @@ body {
 }
 
 @media (max-width: 1100px) {
+
   .dashboard-grid,
   .dashboard-grid.form-list-grid {
     grid-template-columns: 1fr;
   }
 }
 
-/* Forms & UI Controls */
+
 .form-group {
   display: flex;
   flex-direction: column;
@@ -414,7 +424,7 @@ body {
   gap: 1rem;
 }
 
-/* Buttons */
+
 .btn {
   display: inline-flex;
   align-items: center;
@@ -470,14 +480,14 @@ body {
   border-radius: var(--radius-sm);
 }
 
-/* Data Tables */
+
 .table-responsive {
   width: 100%;
   overflow-x: auto;
   overflow-y: auto;
   max-height: 420px;
   margin-top: 1rem;
-  /* Scrollbar styling for table containers */
+
   scrollbar-width: thin;
   scrollbar-color: hsl(var(--border-color)) transparent;
 }
@@ -486,13 +496,16 @@ body {
   width: 6px;
   height: 6px;
 }
+
 .table-responsive::-webkit-scrollbar-track {
   background: transparent;
 }
+
 .table-responsive::-webkit-scrollbar-thumb {
   background: hsl(var(--border-color));
   border-radius: 3px;
 }
+
 .table-responsive::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--color-primary) / 0.4);
 }
@@ -543,7 +556,7 @@ body {
   background-color: hsl(var(--bg-surface) / 0.4);
 }
 
-/* Badges */
+
 .badge {
   display: inline-flex;
   align-items: center;
@@ -554,16 +567,49 @@ body {
   text-transform: uppercase;
 }
 
-.badge-papel { background-color: rgba(99, 102, 241, 0.15); color: #818cf8; border: 1px solid rgba(99, 102, 241, 0.2); }
-.badge-tijolo { background-color: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.2); }
-.badge-varejo { background-color: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.2); }
-.badge-agro { background-color: rgba(236, 72, 153, 0.15); color: #f472b6; border: 1px solid rgba(236, 72, 153, 0.2); }
-.badge-logistica { background-color: rgba(14, 165, 233, 0.15); color: #38bdf8; border: 1px solid rgba(14, 165, 233, 0.2); }
+.badge-papel {
+  background-color: rgba(99, 102, 241, 0.15);
+  color: #818cf8;
+  border: 1px solid rgba(99, 102, 241, 0.2);
+}
 
-.badge-compra { background-color: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.2); }
-.badge-venda { background-color: rgba(244, 63, 94, 0.15); color: #fb7185; border: 1px solid rgba(244, 63, 94, 0.2); }
+.badge-tijolo {
+  background-color: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
 
-/* Asset allocation chart preview */
+.badge-varejo {
+  background-color: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.badge-agro {
+  background-color: rgba(236, 72, 153, 0.15);
+  color: #f472b6;
+  border: 1px solid rgba(236, 72, 153, 0.2);
+}
+
+.badge-logistica {
+  background-color: rgba(14, 165, 233, 0.15);
+  color: #38bdf8;
+  border: 1px solid rgba(14, 165, 233, 0.2);
+}
+
+.badge-compra {
+  background-color: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.badge-venda {
+  background-color: rgba(244, 63, 94, 0.15);
+  color: #fb7185;
+  border: 1px solid rgba(244, 63, 94, 0.2);
+}
+
+
 .alloc-chart-container {
   display: flex;
   flex-direction: column;
@@ -614,7 +660,7 @@ body {
   transition: width 0.6s ease-out;
 }
 
-/* Toast Notifications */
+
 .toast-container {
   position: fixed;
   bottom: 24px;
@@ -640,9 +686,17 @@ body {
   animation: slideIn 0.3s ease-out forwards;
 }
 
-.toast.success { border-left-color: hsl(var(--color-success)); }
-.toast.error { border-left-color: hsl(var(--color-danger)); }
-.toast.warning { border-left-color: hsl(var(--color-warning)); }
+.toast.success {
+  border-left-color: hsl(var(--color-success));
+}
+
+.toast.error {
+  border-left-color: hsl(var(--color-danger));
+}
+
+.toast.warning {
+  border-left-color: hsl(var(--color-warning));
+}
 
 .toast-msg {
   font-size: 0.9rem;
@@ -658,7 +712,7 @@ body {
   font-size: 1.1rem;
 }
 
-/* Auth Screens */
+
 .auth-wrapper {
   min-height: 100vh;
   width: 100%;
@@ -666,7 +720,7 @@ body {
   align-items: center;
   justify-content: center;
   background: radial-gradient(circle at 50% 50%, hsl(var(--color-primary) / 0.1) 0%, transparent 50%),
-              hsl(var(--bg-main));
+    hsl(var(--bg-main));
   padding: 1.5rem;
 }
 
@@ -715,7 +769,7 @@ body {
   text-decoration: underline;
 }
 
-/* Mobile Responsive Adjustments */
+
 .mobile-header {
   display: none;
   background-color: hsl(var(--bg-surface-glass));
@@ -739,7 +793,7 @@ body {
   padding: 0.25rem;
 }
 
-/* Sidebar backdrop overlay for mobile view */
+
 .sidebar-backdrop {
   position: fixed;
   top: 0;
@@ -754,8 +808,13 @@ body {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @media (max-width: 768px) {
@@ -764,19 +823,24 @@ body {
     top: 0;
     left: 0;
   }
+
   .app-sidebar.open {
     transform: translateX(0);
   }
+
   .app-main {
     margin-left: 0;
     padding: 6.5rem 1.25rem 2.5rem 1.25rem;
   }
+
   .mobile-header {
     display: flex;
   }
+
   .metrics-grid {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
+
   .form-row {
     grid-template-columns: 1fr;
   }
@@ -788,7 +852,8 @@ body {
     align-items: flex-start;
     gap: 1rem;
   }
-  .page-header > div {
+
+  .page-header>div {
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -800,34 +865,38 @@ body {
   .metrics-grid {
     grid-template-columns: 1fr;
   }
-  .premium-table th, 
+
+  .premium-table th,
   .premium-table td {
     padding: 0.75rem 0.5rem;
     font-size: 0.8rem;
   }
+
   .badge {
     padding: 0.15rem 0.4rem;
     font-size: 0.65rem;
   }
+
   .app-main {
     padding-left: 0.75rem;
     padding-right: 0.75rem;
   }
 }
 
-/* Keyframes */
+
 @keyframes slideIn {
   from {
     transform: translateY(20px);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;
   }
 }
 
-/* Fallback Local Mock banner */
+
 .mock-banner {
   background: linear-gradient(to right, hsl(var(--color-warning) / 0.15), transparent);
   border: 1px solid hsl(var(--color-warning) / 0.25);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fiiApi }     from '../../services/fiiApi';
+import { fiiApi } from '../../services/fiiApi';
 import { earningApi } from '../../services/earningApi';
 
 export default function EarningsManager({ addToast, navigateToTab }) {
@@ -7,7 +7,7 @@ export default function EarningsManager({ addToast, navigateToTab }) {
   const [fiis, setFiis] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Estados do formulário
+
   const [fiiId, setFiiId] = useState('');
   const [unitValuePayment, setUnitValuePayment] = useState('');
   const [paymentDate, setPaymentDate] = useState(() => new Date().toLocaleDateString('sv-SE'));
@@ -38,7 +38,7 @@ export default function EarningsManager({ addToast, navigateToTab }) {
 
   useEffect(() => {
     fetchData();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -106,7 +106,7 @@ export default function EarningsManager({ addToast, navigateToTab }) {
       </div>
 
       <div className="dashboard-grid form-list-grid">
-        {/* Formulário */}
+        { }
         <div className="glass-card" style={{ height: 'fit-content' }}>
           <h2 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '1.5rem' }}>Registrar Provento Recebido</h2>
 
@@ -179,12 +179,12 @@ export default function EarningsManager({ addToast, navigateToTab }) {
           )}
         </div>
 
-        {/* Lista */}
+        { }
         <div className="glass-card scrollable-card">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '1rem' }}>
             <h2 style={{ fontSize: '1.25rem', fontWeight: 700, margin: 0 }}>Registro de Rendimentos</h2>
 
-            {/* Filtros */}
+            { }
             <div style={{ display: 'flex', gap: '0.75rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
                 <label htmlFor="filter-month" style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--txt-secondary)' }}>Mês:</label>
