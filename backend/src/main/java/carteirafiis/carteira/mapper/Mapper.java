@@ -115,6 +115,7 @@ public class Mapper {
 
         return new GetTransactionResponse(
                 transaction.getId(),
+                transaction.getFii().getCode(),
                 transaction.getQuantity(),
                 transaction.getUnitPrice(),
                 transaction.getDate(),

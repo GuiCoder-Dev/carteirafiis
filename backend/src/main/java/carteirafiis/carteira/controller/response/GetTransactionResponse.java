@@ -7,6 +7,7 @@ import java.time.LocalDate;
 
 public record GetTransactionResponse(
         Integer id,
+        String fiiCode,
         int quantity,
         BigDecimal unitPrice,
         LocalDate date,
